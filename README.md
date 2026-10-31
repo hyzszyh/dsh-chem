@@ -69,31 +69,30 @@
 ChemDraw 不是必需的——装了就多出 EPS / PNG 预览 / cdx 探测。
 
 ```
-git clone https://github.com/hyzszyh/dsh-chem.git
-cd dsh-chem
-python bin/setup.py            # 建独立 venv（%LOCALAPPDATA%\dsh-chem\runtime），装 RDKit 等 → 约 300 MB
-python tools/install_plugin.py # 复制进 ~/.dsh/plugins/dsh-chem，并自动改 profile 接线
+git clone https://github.com/hyzszyh/dsh-chem.git && python dsh-chem/bin/install.py
 ```
 
-`bin/setup.py` 最后会打印一份 JSON：`ok: true` 表示九个核心包全部 import 成功；
-`ok: false` 会带 `hint` 和失败的 `steps`（最常见是网络或版本约束）。
+就这一行。它按顺序做四件事，任一步失败就停下并说明卡在哪：
 
-`tools/install_plugin.py` 做三件事，缺一不可：把插件和引擎复制到 `~/.dsh/plugins/dsh-chem`；
-在 `<profile>/node_modules` 建到它的目录联接（宿主按这个路径解析 bundle）；在 profile 的
-`package.json` 里补 `dependencies.dsh-chem` 与 `dsh.profile.bundles`（第一次改动会留一份
-`package.json.dsh-chem-backup`）。所以**不需要手改任何配置**。
+1. 建独立 venv（`%LOCALAPPDATA%\dsh-chem\runtime`）装 RDKit 等九个包，约 300 MB；已有 venv 时跳过重建。
+2. 把插件和引擎复制到 `<DSH_HOME>/plugins/dsh-chem`（自包含，不是 link）。
+3. 在 profile 的 `node_modules` 建目录联接、补 `dependencies.dsh-chem` 与 `dsh.profile.bundles`，
+   第一次改动留一份 `package.json.dsh-chem-backup`。
+4. 用装好的解释器跑引擎自检，最后打印 `ok`、九个包版本、自检项与检测到的 ChemDraw 路径。
 
 **装完重开 DSH**，右栏出现「化学绘图」面板，模型侧多出 15 个 `chem_*` 工具。
 
-自查三连（都是只读，不改任何东西）：
+其余开关（都只读或纯开关，不需要额外配置）：
 
 ```
-python tools/install_plugin.py --check          # 已装副本与源码逐文件比哈希
-python ~/.dsh/plugins/dsh-chem/engine/bin/chem.py selfcheck   # 解释器、包版本、SVG→PDF
-python tools/publish_scan.py                    # 本机标识扫描（维护者用）
+python bin/install.py --check              # 只比对已装副本与源码，逐文件哈希，不改任何东西
+python bin/install.py --extras retro,spectra   # 附带逆合成 / 谱图可选依赖
+python bin/install.py --recreate           # venv 坏了就整个重建
+python bin/install.py --remove             # 卸载，同时撤掉 profile 接线
 ```
 
-卸载：`python tools/install_plugin.py --remove`（同时把 profile 里的接线撤掉）。
+两个底层脚本仍然可用，需要分步排查时用：`bin/setup.py`（只建运行时）、
+`tools/install_plugin.py`（只装插件与接线）。
 
 
 安装后的样子——**工作区删掉也能跑**：
