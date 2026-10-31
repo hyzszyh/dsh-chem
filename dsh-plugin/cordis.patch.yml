@@ -1,0 +1,6 @@
+# dsh-chem — 插件自带的索引。
+# DSH 把本文件作为一个 patch 层应用（由 package.json 的 dsh.bundle.patch 声明）。
+# id 与插件名保持一致，方便用同 id 覆盖来停用。
+- insert:
+    - id: dsh-chem
+      name: 'dsh-chem'

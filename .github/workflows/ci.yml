@@ -1,0 +1,43 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  suites:
+    # Windows because the tool drives two Windows applications through COM.
+    # Neither application is installed on a runner, and that is the point:
+    # test/run_all.py detects that and reports those suites as SKIP instead of
+    # failing. What runs here is everything that must hold on any machine --
+    # the contract gate, the presentation/width gate, the plugin harvester and
+    # the packaging promise.
+    runs-on: windows-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install runtime dependencies
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Repository hygiene
+        run: python tools/preflight.py
+
+      - name: Documentation renders
+        run: python bin/md_render_check.py
+
+      - name: Every suite that needs no vendor application
+        run: python test/run_all.py
+
+      - name: A non-editable install still runs a command
+        run: |
+          python -m pip install --no-deps --target "$env:RUNNER_TEMP\pkg" .
+          $env:PYTHONPATH = "$env:RUNNER_TEMP\pkg"
+          python -c "from chemdraw_tool.cli import main; raise SystemExit(main(['identity','CCO']))"
+        working-directory: ${{ github.workspace }}

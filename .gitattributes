@@ -1,0 +1,17 @@
+# Line endings and binaries for a Windows-first project that is edited on
+# Windows and cloned on Linux. Without this, a checkout on Linux gets CRLF in
+# shell scripts and a PNG in docs/img can be normalised into garbage.
+* text=auto
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+*.sh text eol=lf
+*.py text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yml text eol=lf
+*.png binary
+*.jpg binary
+*.pdf binary
+*.zip binary
+*.docx binary

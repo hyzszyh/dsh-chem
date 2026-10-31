@@ -1,0 +1,35 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+
+# Build output from `pip install .` (setuptools leaves both behind in the
+# checkout: measured after a --target install, `git add -A` swept 9.6k lines
+# of copies of core/ into the index).
+build/
+dist/
+
+# Runtime payloads (re-downloadable, see scripts/fetch_runtime.py).
+# The whole folder is generated: the 32-bit embeddable interpreter lands there.
+runtime/
+
+# Agent team state
+.agent-teams/
+
+# Test artefacts and example output. Both are generated: examples/out/
+# appears the moment someone runs examples/draw_figure.py, and a committed PNG
+# there would change on every run.
+test/out/
+test/tmp/
+examples/out/
+
+# Editors / OS
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# 课程参考 PDF：版权归原作者，不随仓库分发（本地保留）
+参考文档/

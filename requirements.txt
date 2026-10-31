@@ -1,0 +1,15 @@
+# Runtime dependencies for chem-draw-tool.
+# Mirrors [project].dependencies in pyproject.toml - keep the two in sync.
+#   python -m pip install -r requirements.txt
+
+rdkit>=2023.9
+
+# Exported figures are re-tagged and flattened before submission, and window
+# capture reads pixels; both go through Pillow. Missing it surfaces as
+# "cannot read image" rather than "Pillow is not installed", so it is listed
+# here instead of being treated as optional.
+pillow>=9.0
+
+# Windows only: pywin32 provides the COM binding for the ChemDraw channel.
+# The environment marker makes this line a no-op on Linux/macOS.
+pywin32>=306; sys_platform == "win32"

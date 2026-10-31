@@ -1,0 +1,15 @@
+# dsh-chem runtime dependencies (pinned for reproducibility of numeric results).
+# Build with:  python bin/setup.py        (creates %LOCALAPPDATA%\dsh-chem\runtime)
+# The legacy CLI dependency list stays in requirements.txt.
+
+rdkit==2026.9.1
+numpy>=1.26
+pandas>=2.0,<3
+scipy>=1.10,<2
+scikit-learn>=1.4,<2
+PyMuPDF>=1.24,<2
+Pillow>=10
+python-docx
+python-pptx>=1.0.2,<2
+openpyxl>=3.1,<4
+pywin32>=306; sys_platform == "win32"

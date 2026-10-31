@@ -1,0 +1,46 @@
+{
+  "name": "dsh-chem",
+  "version": "0.2.0",
+  "description": "把本机的化学计算与绘图能力接到 agent 手上：结构识别、体检、出图、性质、批量表、本地库检索、建模、逆合成、教学批改、Word/PPT 内嵌。全程离线，独立 venv。",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json",
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "compatibility": {
+      "dshReleases": {
+        "0.2.0-rc.2": "compatible",
+        "0.2.1-rc.3": "compatible"
+      }
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-runtime",
+        "@deepseek-ai/dsh-client-ui-slots"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": "^0.2.0-rc.2",
+    "@deepseek-ai/dsh-tools": "^0.2.0-rc.2"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "keywords": ["dsh-plugin", "chemistry", "rdkit", "chemdraw", "structure-drawing", "molfile"],
+  "repository": { "type": "git", "url": "git+https://github.com/hyzszyh/dsh-chem.git" },
+  "homepage": "https://github.com/hyzszyh/dsh-chem#readme",
+  "bugs": { "url": "https://github.com/hyzszyh/dsh-chem/issues" },
+  "author": "chem-draw-tool contributors",
+  "license": "MIT",
+  "engines": { "node": ">=20" }
+}

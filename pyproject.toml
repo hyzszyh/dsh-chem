@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "chem-draw-tool"
+version = "0.2.0"
+description = "Drive the ChemDraw and KingDraw installations you already own, from an agent or a shell."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+keywords = ["chemistry", "rdkit", "chemdraw", "structure-drawing", "dsh-plugin"]
+
+dependencies = [
+    "rdkit>=2023.9",
+    "pillow>=9.0",
+    "pywin32>=306; sys_platform == 'win32'",
+]
+classifiers = ["Environment :: Win32 (MS Windows)", "Programming Language :: Python :: 3.11",
+               "Topic :: Scientific/Engineering :: Chemistry"]
+
+[project.urls]
+Repository = "https://github.com/hyzszyh/dsh-chem"
+Issues = "https://github.com/hyzszyh/dsh-chem/issues"
+
+[project.scripts]
+chemdraw-tool = "chemdraw_tool.cli:main"
+
+[tool.setuptools]
+package-dir = { "" = "core" }
+
+[tool.setuptools.packages.find]
+where = ["core"]
